@@ -26,6 +26,26 @@ async function savePDF() {
   }
 }
 
+// Send a message to the content script.
+//
+// We need code to run in the content script context for anything
+// that accesses the DOM or needs to outlive the popup window.
+function send(message) {
+  return new Promise((resolve, _reject) => {
+    browser.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+      resolve(browser.tabs.sendMessage(tabs[0].id, message));
+    });
+  });
+}
+
+async function saveHtml() {
+  const text = await send({ action: "getPageText" });
+  const filename = `${DOWNLOAD_SUBDIRECTORY}/PAGE${generateFileName("html")}`;
+  const file = new File([text], filename, { type: "text/plain" });
+  const url = URL.createObjectURL(file);
+  browser.downloads.download({ url, filename, saveAs: false });
+}
+
 function saveNote() {
   const text = document.querySelector("#text-note").value;
   const filename = `${DOWNLOAD_SUBDIRECTORY}/NOTE${generateFileName("md")}`;
@@ -53,6 +73,7 @@ function saveNoteDraft() {
 }
 
 document.getElementById("save-pdf-button").addEventListener("click", savePDF);
+document.getElementById("save-html-button").addEventListener("click", saveHtml);
 document.getElementById("save-note-button").addEventListener("click", saveNote);
 document
   .getElementById("text-note")
