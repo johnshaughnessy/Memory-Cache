@@ -107,3 +107,13 @@ document.getElementById("edit-button").addEventListener("click", () => {
 document.getElementById("preview-button").addEventListener("click", () => {
   setTextView(true);
 });
+
+const copyButton = document.getElementById("copy-button");
+const copyInput = document.getElementById("copy-input");
+
+copyButton.addEventListener("click", () => {
+  console.log(copyInput.value);
+  navigator.clipboard.writeText(copyInput.value).then(() => {
+    console.log("Text copied to clipboard");
+  });
+});

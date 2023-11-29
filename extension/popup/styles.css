@@ -102,3 +102,26 @@ body {
 .foooter a:hover {
     color: var( --neutral-content);
 }
+
+.copy-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+#copy-input {
+    border: 1px solid #ccc;
+    padding: 5px 10px;
+    border-radius: 4px;
+    margin-right: 5px;
+    flex-grow: 1;
+}
+
+
+#copy-button {
+    /* Shrink it vertically with negative padding */
+    height: 14px;
+    line-height: 0px;
+    padding: 12px;
+
+}
