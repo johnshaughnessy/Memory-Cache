@@ -29,6 +29,11 @@ async function saveHtml() {
   browser.downloads.download({ url, filename, saveAs: false });
 }
 
+function savePDF() {
+  const toFileName = `${DOWNLOAD_SUBDIRECTORY}/PAGE${generateFileName("pdf")}`;
+  Promise.resolve(browser.tabs.saveAsPDF({ toFileName }));
+}
+
 function saveNote() {
   const text = document.querySelector("#text-note").value;
   const filename = `${DOWNLOAD_SUBDIRECTORY}/NOTE${generateFileName("txt")}`;
@@ -38,4 +43,5 @@ function saveNote() {
 }
 
 document.getElementById("save-html-button").addEventListener("click", saveHtml);
+document.getElementById("save-pdf-button").addEventListener("click", savePDF);
 document.getElementById("save-note-button").addEventListener("click", saveNote);
